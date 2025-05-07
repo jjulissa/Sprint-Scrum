@@ -7,6 +7,7 @@ const Carrito = () => {
   const { cart, dispatch } = useCart();
   const [visible, setVisible] = useState(false);
   const [compraExitosa, setCompraExitosa] = useState(false);
+  const [mostrarPago, setMostrarPago] = useState(false);
 
   const toggleCarrito = () => setVisible(!visible);
 
@@ -28,6 +29,7 @@ const Carrito = () => {
   const handlePagar = () => {
     vaciarCarrito();
     setCompraExitosa(true);
+    setMostrarPago(false);
     setTimeout(() => setCompraExitosa(false), 3000);
   };
 
@@ -74,7 +76,7 @@ const Carrito = () => {
                     <button
                       className="ml-2 px-2 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200"
                       onClick={() => eliminarProducto(producto.id)}
-                    >✕</button>
+                    >🗑️</button>
                   </div>
                 </li>
               ))}
@@ -88,12 +90,22 @@ const Carrito = () => {
               Vaciar Carrito
             </button>
           )}
-          <div className="mt-6 border-t pt-4 flex justify-between items-center">
-            <span className="text-lg font-semibold text-gray-700">Total:</span>
-            <span className="text-xl font-bold text-indigo-600">${total}</span>
-            <Pago total={total} onPagar={handlePagar} />
-            <Confirmacion show={compraExitosa} />
-          </div>
+
+          <div className="font-semibold mb-4">Total: ${total}</div>
+          {!mostrarPago && (
+            <button
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full"
+              onClick={() => setMostrarPago(true)}
+            >
+              Tramitar pedido
+            </button>
+          )}
+          {mostrarPago && (
+            <Pago onPagar={handlePagar} onCancelar={() => setMostrarPago(false)} />
+          )}
+
+          <Confirmacion show={compraExitosa} />
+
         </>
       )}
     </div>
