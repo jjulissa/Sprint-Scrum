@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import Pago from './Pago';
-
+import Confirmacion from './Confirmacion';
 
 const Carrito = () => {
   const { cart, dispatch } = useCart();
   const [visible, setVisible] = useState(false);
-
+  const [compraExitosa, setCompraExitosa] = useState(false);
 
   const toggleCarrito = () => setVisible(!visible);
 
@@ -27,6 +27,8 @@ const Carrito = () => {
 
   const handlePagar = () => {
     vaciarCarrito();
+    setCompraExitosa(true);
+    setTimeout(() => setCompraExitosa(false), 3000);
   };
 
   return (
@@ -90,6 +92,7 @@ const Carrito = () => {
             <span className="text-lg font-semibold text-gray-700">Total:</span>
             <span className="text-xl font-bold text-indigo-600">${total}</span>
             <Pago total={total} onPagar={handlePagar} />
+            <Confirmacion show={compraExitosa} />
           </div>
         </>
       )}
