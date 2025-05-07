@@ -1,11 +1,13 @@
-// LoginForm.jsx
+// LoginForm.js
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [role, setRole] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,13 +17,15 @@ function LoginForm() {
       return;
     }
     setError("");
-    // Lógica simple: si el email contiene "admin", es admin
     if (email.toLowerCase().includes("admin")) {
       setRole("admin");
     } else {
       setRole("user");
     }
-    // Aquí iría la lógica real de autenticación
+    // Simula autenticación y redirige
+    setTimeout(() => {
+      navigate("/productos");
+    }, 500);
   };
 
   return (

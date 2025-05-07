@@ -1,26 +1,36 @@
+// App.js
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
+import LoginForm from "./components/LoginForm";
 import ProductosList from "./components/ProductoList";
 import Carrito from "./components/Carrito";
+
+function ProductosCarritoPage() {
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center">
+    <main className="w-full max-w-6xl flex flex-col md:flex-row gap-8 px-4">
+      <section className="flex-1">
+        <ProductosList />
+      </section>
+      <aside className="w-full md:w-96">
+        <Carrito />
+      </aside>
+    </main>
+  </div>
+  );
+}
 
 function App() {
   return (
     <CartProvider>
-      <div className="min-h-screen bg-gray-50 flex flex-col items-center">
-        <header className="w-full py-8 bg-white shadow-sm mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 text-center tracking-tight">
-            Tienda
-          </h1>
-        </header>
-        <main className="w-full max-w-6xl flex flex-col md:flex-row gap-8 px-4">
-          <section className="flex-1">
-            <ProductosList />
-          </section>
-          <aside className="w-full md:w-96">
-            <Carrito />
-          </aside>
-        </main>
-      </div>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/productos" element={<ProductosCarritoPage />} />
+          <Route path="*" element={<LoginForm />} />
+        </Routes>
+      </Router>
     </CartProvider>
   );
 }
