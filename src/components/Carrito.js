@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import Pago from './Pago';
+
 
 const Carrito = () => {
   const { cart, dispatch } = useCart();
   const [visible, setVisible] = useState(false);
+
 
   const toggleCarrito = () => setVisible(!visible);
 
@@ -21,6 +24,10 @@ const Carrito = () => {
   };
 
   const total = cart.reduce((acc, producto) => acc + producto.precio * producto.quantity, 0);
+
+  const handlePagar = () => {
+    vaciarCarrito();
+  };
 
   return (
     <div className="bg-white rounded-xl shadow p-6">
@@ -82,6 +89,7 @@ const Carrito = () => {
           <div className="mt-6 border-t pt-4 flex justify-between items-center">
             <span className="text-lg font-semibold text-gray-700">Total:</span>
             <span className="text-xl font-bold text-indigo-600">${total}</span>
+            <Pago total={total} onPagar={handlePagar} />
           </div>
         </>
       )}
